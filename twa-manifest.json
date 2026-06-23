@@ -1,0 +1,62 @@
+{
+  "packageId": "com.footballenglish.academy",
+  "host": "football-english.pages.dev",
+  "name": "Football English Academy",
+  "launcherName": "FE Academy",
+  "display": "standalone",
+  "themeColor": "#0F172A",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#0F172A",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://football-english.pages.dev/icon-512.png",
+  "maskableIconUrl": "https://football-english.pages.dev/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "C:\\Users\\User\\Desktop\\AcademiaPRO\\android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "2",
+  "appVersionCode": 2,
+  "shortcuts": [
+    {
+      "name": "Lessons",
+      "short_name": "Lessons",
+      "url": "https://football-english.pages.dev/lessons",
+      "icon": "shortcut_lessons",
+      "icons": [{"src": "https://football-english.pages.dev/icon-512.png", "sizes": "512x512"}]
+    },
+    {
+      "name": "Vocabulary",
+      "short_name": "Vocab",
+      "url": "https://football-english.pages.dev/vocabulary",
+      "icon": "shortcut_vocab",
+      "icons": [{"src": "https://football-english.pages.dev/icon-512.png", "sizes": "512x512"}]
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://football-english.pages.dev/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://football-english.pages.dev/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": ["06:11:BD:16:C5:7D:3E:A6:EE:9C:5D:B5:4E:16:6D:3A:B6:DE:1C:28:74:A7:E0:91:EC:04:BA:C8:AB:48:F4:54"],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [],
+  "appVersion": "2"
+}
