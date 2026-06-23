@@ -156,6 +156,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -203,13 +204,6 @@ task generateShorcutsFile {
 }
 
 preBuild.dependsOn(generateShorcutsFile)
-
-configurations.all {
-    resolutionStrategy {
-        // Force stable version of browser library; androidbrowserhelper:2.6.2 pulls in 1.9.0-alpha04
-        force 'androidx.browser:browser:1.8.0'
-    }
-}
 
 repositories {
 
