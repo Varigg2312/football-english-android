@@ -17,10 +17,10 @@
   "maskableIconUrl": "https://football-english.pages.dev/icon-512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
-    "path": "C:\\Users\\User\\Desktop\\AcademiaPRO\\android.keystore",
+    "path": "keystore/academia_release.jks",
     "alias": "android"
   },
-  "appVersionName": "2",
+  "appVersionName": "2.0.0",
   "appVersionCode": 2,
   "shortcuts": [
     {
@@ -49,7 +49,7 @@
   "isChromeOSOnly": false,
   "isMetaQuest": false,
   "fullScopeUrl": "https://football-english.pages.dev/",
-  "minSdkVersion": 21,
+  "minSdkVersion": 24,
   "orientation": "portrait",
   "fingerprints": ["BB:78:E7:23:16:00:73:B5:8F:73:38:D4:52:2E:C3:91:0D:8D:69:84:71:3C:29:61:E3:DA:48:C5:D6:CE:23:E9"],
   "additionalTrustedOrigins": [],

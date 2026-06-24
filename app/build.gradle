@@ -53,15 +53,21 @@ def twaManifest = [
     orientation: 'portrait',
 ]
 
+def keystoreProps = new Properties()
+def keystorePropsFile = rootProject.file('keystore/signing.properties')
+if (keystorePropsFile.exists()) {
+    keystoreProps.load(keystorePropsFile.newDataInputStream())
+}
+
 android {
-    compileSdkVersion 36
+    compileSdk 36
     namespace "com.footballenglish.academy"
     defaultConfig {
         applicationId "com.footballenglish.academy"
-        minSdkVersion 21
-        targetSdkVersion 35
+        minSdk 24
+        targetSdk 35
         versionCode 2
-        versionName "2"
+        versionName "2.0.0"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -153,57 +159,76 @@ android {
 
         
     }
+    signingConfigs {
+        release {
+            storeFile file(keystoreProps.getProperty('storeFile', 'keystore/academia_release.jks'))
+            storePassword keystoreProps.getProperty('storePassword', System.getenv('KEYSTORE_PASSWORD') ?: '')
+            keyAlias keystoreProps.getProperty('keyAlias', System.getenv('KEY_ALIAS') ?: 'android')
+            keyPassword keystoreProps.getProperty('keyPassword', System.getenv('KEY_PASSWORD') ?: '')
+            v1SigningEnabled true
+            v2SigningEnabled true
+            enableV3Signing true
+            enableV4Signing true
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePropsFile.exists() || System.getenv('KEYSTORE_PASSWORD')) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    lintOptions {
-        checkReleaseBuilds false
+    lint {
+        checkReleaseBuilds true
+        abortOnError false
+        htmlReport true
     }
 }
 
-task generateShorcutsFile {
-    assert twaManifest.shortcuts.size() < 5, "You can have at most 4 shortcuts."
-    twaManifest.shortcuts.eachWithIndex { s, i ->
-        assert s.name != null, 'Missing `name` in shortcut #' + i
-        assert s.short_name != null, 'Missing `short_name` in shortcut #' + i
-        assert s.url != null, 'Missing `icon` in shortcut #' + i
-        assert s.icon != null, 'Missing `url` in shortcut #' + i
-    }
+tasks.register('generateShortcutsFile') {
+    doLast {
+        assert twaManifest.shortcuts.size() < 5, "You can have at most 4 shortcuts."
+        twaManifest.shortcuts.eachWithIndex { s, i ->
+            assert s.name != null, 'Missing `name` in shortcut #' + i
+            assert s.short_name != null, 'Missing `short_name` in shortcut #' + i
+            assert s.url != null, 'Missing `icon` in shortcut #' + i
+            assert s.icon != null, 'Missing `url` in shortcut #' + i
+        }
 
-    def shortcutsFile = new File("$projectDir/src/main/res/xml", "shortcuts.xml")
+        def shortcutsFile = new File("$projectDir/src/main/res/xml", "shortcuts.xml")
 
-    def xmlWriter = new StringWriter()
-    def xmlMarkup = new MarkupBuilder(new IndentPrinter(xmlWriter, "    ", true))
+        def xmlWriter = new StringWriter()
+        def xmlMarkup = new MarkupBuilder(new IndentPrinter(xmlWriter, "    ", true))
 
-    xmlMarkup
-        .'shortcuts'('xmlns:android': 'http://schemas.android.com/apk/res/android') {
-            twaManifest.shortcuts.eachWithIndex { s, i ->
-                'shortcut'(
-                        'android:shortcutId': 'shortcut' + i,
-                        'android:enabled': 'true',
-                        'android:icon': '@drawable/' + s.icon,
-                        'android:shortcutShortLabel': '@string/shortcut_short_name_' + i,
-                        'android:shortcutLongLabel': '@string/shortcut_name_' + i) {
-                    'intent'(
-                            'android:action': 'android.intent.action.MAIN',
-                            'android:targetPackage': twaManifest.applicationId,
-                            'android:targetClass': twaManifest.applicationId + '.LauncherActivity',
-                            'android:data': s.url)
-                    'categories'('android:name': 'android.intent.category.LAUNCHER')
+        xmlMarkup
+            .'shortcuts'('xmlns:android': 'http://schemas.android.com/apk/res/android') {
+                twaManifest.shortcuts.eachWithIndex { s, i ->
+                    'shortcut'(
+                            'android:shortcutId': 'shortcut' + i,
+                            'android:enabled': 'true',
+                            'android:icon': '@drawable/' + s.icon,
+                            'android:shortcutShortLabel': '@string/shortcut_short_name_' + i,
+                            'android:shortcutLongLabel': '@string/shortcut_name_' + i) {
+                        'intent'(
+                                'android:action': 'android.intent.action.MAIN',
+                                'android:targetPackage': twaManifest.applicationId,
+                                'android:targetClass': twaManifest.applicationId + '.LauncherActivity',
+                                'android:data': s.url)
+                        'categories'('android:name': 'android.intent.category.LAUNCHER')
+                    }
                 }
             }
-        }
-    shortcutsFile.text = xmlWriter.toString() + '\n'
+        shortcutsFile.text = xmlWriter.toString() + '\n'
+    }
 }
 
-preBuild.dependsOn(generateShorcutsFile)
+tasks.named('preBuild').configure { dependsOn('generateShortcutsFile') }
 
 repositories {
 
@@ -213,6 +238,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
         implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.2'
+    implementation 'androidx.browser:browser:1.8.0'
 
     testImplementation 'junit:junit:4.13.2'
 }

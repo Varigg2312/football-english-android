@@ -13,6 +13,7 @@ local.properties
 # Keystore - NEVER commit keys
 *.keystore
 *.jks
+keystore/signing.properties
 
 # IDE
 .idea/

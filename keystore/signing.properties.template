@@ -1,0 +1,6 @@
+# Copy this file to keystore/signing.properties and fill in the values.
+# signing.properties is in .gitignore and will NEVER be committed.
+storeFile=keystore/academia_release.jks
+storePassword=YOUR_KEYSTORE_PASSWORD
+keyAlias=android
+keyPassword=YOUR_KEY_PASSWORD

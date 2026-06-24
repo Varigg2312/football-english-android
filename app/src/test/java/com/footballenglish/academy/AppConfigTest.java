@@ -26,7 +26,7 @@ public class AppConfigTest {
 
     @Test
     public void fingerprint_hasCorrectFormat() {
-        String fingerprint = "06:11:BD:16:C5:7D:3E:A6:EE:9C:5D:B5:4E:16:6D:3A:B6:DE:1C:28:74:A7:E0:91:EC:04:BA:C8:AB:48:F4:54";
+        String fingerprint = "BB:78:E7:23:16:00:73:B5:8F:73:38:D4:52:2E:C3:91:0D:8D:69:84:71:3C:29:61:E3:DA:48:C5:D6:CE:23:E9";
         String[] parts = fingerprint.split(":");
         assertEquals("SHA-256 must have 32 bytes", 32, parts.length);
         for (String part : parts) {
