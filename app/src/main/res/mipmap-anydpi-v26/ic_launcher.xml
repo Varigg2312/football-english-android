@@ -18,7 +18,7 @@
     <background>
         <aapt:attr name="android:drawable">
             <shape xmlns:android="http://schemas.android.com/apk/res/android">
-                <solid android:color="#0F172A"/>
+                <solid android:color="#13243A"/>
             </shape>
         </aapt:attr>
     </background>
